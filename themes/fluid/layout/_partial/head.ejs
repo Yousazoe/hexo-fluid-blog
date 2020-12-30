@@ -1,0 +1,44 @@
+<%
+var joinStr = theme.title_join_string
+var title = config.title
+if (page.title) {
+  title = [page.title, title].join(joinStr)
+}
+%>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="<%- url_for(theme.apple_touch_icon) %>">
+  <link rel="icon" type="image/png" href="<%- url_for(theme.favicon) %>">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <% if (theme.force_https) { %>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <% } %>
+  <meta name="theme-color" content="<%- theme.color.navbar_bg_color %>">
+  <meta name="description" content="<%= config.description %>">
+  <meta name="author" content="<%= page.author || config.author %>">
+  <meta name="keywords" content="<%= config.keywords %>">
+
+  <meta name="360-site-verification" content="eeba3532e07b89ad373cd55608bc6c53" />
+  <title><%= title %></title>
+
+  <%- partial('_partial/css.ejs') %>
+  <%- export_config() %>
+  <%- js_ex(theme.static_prefix.internal_js, 'utils.js') %>
+  <%- js_ex(theme.static_prefix.internal_js, 'color-schema.js') %>
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?fd9fb345d97c737a7f0f092ee6c14bd4";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+  <!--<script data-ad-client="ca-pub-2165641641364058" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
+
+</head>

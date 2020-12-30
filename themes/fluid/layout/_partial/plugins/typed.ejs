@@ -1,0 +1,33 @@
+<% if(theme.fun_features.typing.enable && page.subtitle !== false){ %>
+  <%- js_ex(theme.static_prefix.typed, "/typed.min.js") %>
+  <script>
+    function typing(id, title){
+      var typed = new Typed('#' + id, {
+        strings: [
+          '  ',
+          title + "&nbsp;",
+        ],
+        cursorChar: "<%- theme.fun_features.typing.cursorChar %>",
+        typeSpeed: <%- theme.fun_features.typing.typeSpeed %>,
+        loop: <%- theme.fun_features.typing.loop %>,
+      });
+      typed.stop();
+      $(document).ready(function () {
+        $(".typed-cursor").addClass("h2");
+        typed.start();
+      });
+    }
+    <% if(is_post()) { %>
+    typing("subtitle", "<%- page.title %>")
+    <% } else if(theme.index.hitokoto.enable){ %>
+    fetch('https://v1.hitokoto.cn')
+            .then(response => response.json())
+            .then(data => {
+              typing("hitokoto", '『' + data.hitokoto + '』' + '<br /><br /> <h5>'+ '——' + '「' + data.from + '」' + '</h5>')
+            })
+            .catch(console.error)
+    <% }
+    else { %>typing("subtitle", "<%- data.subtitle %>")<% }
+    %>
+  </script>
+<% } %>
