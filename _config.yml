@@ -152,3 +152,40 @@ sitemap:
   path: sitemap.xml
 baidusitemap:
   path: baidusitemap.xml
+
+
+hexo_submit_urls_to_search_engine:
+  # 提交最新的 n 个链接
+  count: 1000
+  # 提交修改时间在 n 秒内的链接，单位秒。例如：
+  # 有两个文件 a.txt 和 b.txt，分别对应 https://yoursite.com/a.txt 和 https://yoursite.com/b.txt
+  # 其更新时间距当前分别为 800s 和 1000s（period 字段设为 900）
+  # 则 https://yoursite.com/a.txt 会被提交，https://yoursite.com/b.txt 不会
+  period: 900
+  # 提交链接的条件，可选值：count | period。不同取值的含义如下：
+  # count ：应用上述的 count  配置项，现仅支持此方式
+  # period：应用上述的 period 配置项
+  submit_condition: count
+  # 是否向 Google 提交，可选值：1 | 0（0：否；1：是）
+  google: 1
+  # 是否向 Bing 提交，可选值：1 | 0（0：否；1：是）
+  bing: 1
+  # 是否向 Baidu 提交，可选值：1 | 0（0：否；1：是）
+  baidu: 1
+  # 文本文档的地址，要推送的链接会保存在此文本文档里
+  txt_path: submit_urls.txt
+  # 在百度站长平台中注册的域名
+  baidu_host: https://yousazoe.top/
+  # 百度自动推送 API 的 token（获取方式见插件文档：https://cjh0613.com/20200603HexoSubmitUrlsToSearchEngine.html）
+  baidu_token: slBbq5f8WxljPytW
+  # 在必应站长平台中注册的域名
+  bing_host: https://yousazoe.top/
+  # 必应自动推送 API 的 token（获取方式见插件文档：https://cjh0613.com/20200603HexoSubmitUrlsToSearchEngine.html）
+  bing_token: abc4e2674c7541a0b4e5b26680f671f5
+  # 在谷歌站长平台中注册的域名
+  google_host: https://yousazoe.top/
+  # 存放 google key 的 json 文件，放于网站根目录
+  google_key_file: google_key.json
+  replace: 0  # 是否替换链接中的部分字符串，可选值：1 | 0（0：否；1：是）
+  find_what: #http://cjh0613.github.io/blog
+  replace_with: #https://cjh0613.com

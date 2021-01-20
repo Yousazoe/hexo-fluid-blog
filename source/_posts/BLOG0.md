@@ -105,7 +105,7 @@ Total Count:
 
 #### 下载js文件
 
-[点击这里](https://www.imatx.com/down/tw_cn.zip)右键另存下载简繁字体切换所需的tw_cn.js文件，上传到`~/public/js `下。
+[点击这里](https://tding.top/js/tw_cn.js)右键另存下载或者拷贝如下的简繁字体切换所需的tw_cn.js文件，上传到`~/public/js `下。
 
 
 
@@ -759,6 +759,236 @@ nodeppt serve -h
 
 
 
+### 标签页添加标签云
+
+#### 效果图
+
+
+
+![](https://tva1.sinaimg.cn/large/008eGmZEly1gmlxgz5y7tj30u00z1tmb.jpg)
+
+
+
+#### 安装
+
+- 进入到 hexo 的根目录，然后在 `package.json` 中添加依赖: `"hexo-tag-cloud": "2.1.*"`
+
+![](https://tva1.sinaimg.cn/large/008eGmZEly1gmlxjb6g4bj311y0lcq94.jpg)
+
+- 然后执行 `npm install hexo-tag-cloud` 命令
+
+
+
+#### 修改
+
+##### ejs用户
+
+- 这里以默认主题 landscape 为例。
+- tagcloud 模板文件为 `hexo/themes/landscape/layout/_widget/tagcloud.ejs`
+- 将这个文件修改为如下内容：
+
+
+
+```ejs
+<% if (site.tags.length) { %>
+  <script type="text/javascript" charset="utf-8" src="<%- url_for('/js/tagcloud.js') %>"></script>
+  <script type="text/javascript" charset="utf-8" src="<%- url_for('/js/tagcanvas.js') %>"></script>
+  <div class="widget-wrap">
+    <h3 class="widget-title"><%= __('tagcloud') %></h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="250" height="250" id="resCanvas" style="width:100%">
+        <%- tagcloud() %>
+      </canvas>
+    </div>
+  </div>
+<% } %>
+```
+
+如果你使用的是 [icarus](https://github.com/ppoffice/hexo-theme-icarus) 主题, 请查阅 [Issue #31](https://github.com/MikeCoder/hexo-tag-cloud/issues/31).
+
+
+
+##### swig用户
+
+- 这里以 Next 主题为例。
+- 找到文件 `next/layout/_macro/sidebar.swig`, 然后添加如下内容。
+
+```html
+{% if site.tags.length > 1 %}
+<script type="text/javascript" charset="utf-8" src="{{ url_for('/js/tagcloud.js') }}"></script>
+<script type="text/javascript" charset="utf-8" src="{{ url_for('/js/tagcanvas.js') }}"></script>
+<div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+        <canvas width="250" height="250" id="resCanvas" style="width:100%">
+            {{ list_tags() }}
+        </canvas>
+    </div>
+</div>
+{% endif %}
+```
+
+
+
+
+
+##### jade用户
+
+- 这里以 Apollo 主题为例
+- 找到 `apollo/layout/archive.jade` 文件，并且把 container 代码块修改为如下内容:
+
+```jade
+block container
+    include mixins/post
+    .archive
+        h2(class='archive-year')= 'Tag Cloud'
+        script(type='text/javascript', charset='utf-8', src=url_for("/js/tagcloud.js"))
+        script(type='text/javascript', charset='utf-8', src=url_for("/js/tagcanvas.js"))
+
+        #myCanvasContainer.widget.tagcloud(align='center')
+            canvas#resCanvas(width='500', height='500', style='width:100%')
+                !=tagcloud()
+            !=tagcloud()
+    +postList()
+```
+
+
+
+##### pug用户
+
+- 这里以 Butterfly 主题为例
+- 找到 `Butterfly/layout/includes/widget/card_tags.pug` 文件
+- 将这个文件修改为如下内容(注意缩进):
+
+```
+if site.tags.length
+  .card-widget.card-tags
+    .card-content
+      .item-headline
+        i.fa.fa-tags(aria-hidden="true")
+        span= _p('aside.card_tags')
+        script(type="text/javascript" charset="utf-8" src="/js/tagcloud.js")
+        script(type="text/javascript" charset="utf-8" src="/js/tagcanvas.js")
+        #myCanvasContainer.widget.tagcloud(align='center')
+          canvas#resCanvas(width='200', height='200', style='width=100%')
+            != tagcloud()
+          != tagcloud({min_font: 16, max_font: 24, amount: 50, color: true, start_color: '#999', end_color: '#99a9bf'})
+```
+
+
+
+##### Fluid主题详解
+
+对于Fluid主题用户而言，需要找到`/blog/themes/fluid/layout/tags.ejs`这个文件添加刚才ejs用户代码：
+
+```ejs
+<%
+page.layout = "tags"
+page.title = theme.tag.title || __('tag.title')
+page.subtitle = theme.tag.subtitle || __('tag.subtitle')
+page.banner_img = theme.tag.banner_img
+page.banner_img_height = theme.tag.banner_img_height
+page.banner_mask_alpha = theme.tag.banner_mask_alpha
+
+var min_font = theme.tag.tagcloud.min_font || 15
+var max_font = theme.tag.tagcloud.max_font || 30
+var unit = theme.tag.tagcloud.unit || 'px'
+var start_color = theme.tag.tagcloud.start_color || '#BBBBEE'
+var end_color = theme.tag.tagcloud.end_color || '#337ab7'
+%>
+
+
+<div class="text-center tagcloud">
+
++  <% if (site.tags.length) { %>
++    <script type="text/javascript" charset="utf-8" src="<%- url_for('/js/tagcloud.js') %>"></script>
++    <script type="text/javascript" charset="utf-8" src="<%- url_for('/js/tagcanvas.js') %>"></script>
++    <div class="widget-wrap">
++      <h3 class="widget-title">
++        <%= __('tagcloud') %>
++      </h3>
++      <div id="myCanvasContainer" class="widget tagcloud">
++        <canvas width="700" height="700" id="resCanvas" style="width:100%">
++          <%- tagcloud() %>
++        </canvas>
++      </div>
++    </div>
++    <% } %>
+
+    <%- tagcloud({
+        min_font: min_font,
+        max_font: max_font,
+        amount: 999,
+        unit: unit,
+        color: true,
+        start_color,
+        end_color
+      }) %>
+</div>
+```
+
+
+
+
+
+##### 最后一步
+
+- 完成安装和显示，可以通过 `hexo clean && hexo g && hexo s` 来进行本地预览, hexo clean 为必须选项。
+- **PS:不要使用 `hexo g -d 或者 hexo d -g` 这类组合命令。**详情见: [Issue 7](https://github.com/MikeCoder/hexo-tag-cloud/issues/7)
+
+
+
+#### 自定义
+
+现在 hexo-tag-cloud 插件支持自定义啦。非常简单的步骤就可以改变你的标签云的字体和颜色，还有突出高亮。
+
+- 在你的博客根目录，找到 *_config.yml* 文件然后添加如下的配置项:
+
+```yaml
+# hexo-tag-cloud
+tag_cloud:
+    textFont: Trebuchet MS, Helvetica
+    textColor: '#333'
+    textHeight: 25
+    outlineColor: '#E2E1D1'
+    maxSpeed: 0.5
+    pauseOnSelected: false # true 意味着当选中对应 tag 时,停止转动
+```
+
+- 然后使用 `hexo c && hexo g && hexo s` 来享受属于你自己的独一无二的标签云吧。
+
+
+
+对于我个人而言配置如下，如果比例掌握不对会造成字体的模糊：
+
+```yaml
+# hexo-tag-cloud
+tag_cloud:
+    textFont: Trebuchet MS, Helvetica
+    textColor: '#000'
+    textHeight: 20
+    outlineColor: '#fff'
+    maxSpeed: 0.1
+    pauseOnSelected: true # true 意味着当选中对应 tag 时,停止转动
+
+```
+
+
+
+效果图：
+
+![](https://tva1.sinaimg.cn/large/008eGmZEly1gmlxt8wzxpj311k0j3jsh.jpg)
+
+
+
+#### 官方文档
+
++ [Hexo Tag Cloud](https://github.com/D0n9X1n/hexo-tag-cloud/blob/master/README.ZH.md)
+
+
+
+
+
 ### 关于页添加贡献图
 
 本文主要介绍如何在个人博客中展示 GitHub Chart。其实 GitHub 上已经有人开源了一个工具，并且提供了 API，我们只需要调用一下就可以了。
@@ -817,6 +1047,236 @@ https://ghchart.rshah.org/yousazoe
 - [在博客中展示 GitHub Chart](https://mogeko.me/2019/067/)
 
 
+
+### 添加游戏
+
+预览效果见右上角↗「游戏」
+
+源码分别来自：[LIUBOliubo/Games](https://github.com/LIUBOliubo/Games/tree/master/games/2048)，[mumuy/pacman](https://github.com/mumuy/pacman)
+
+
+
+#### 引入
+
+下载好游戏相关源码，解压到本地（通常包含html、css、js、图片和音频等资源文件），双击其中的`index.html`文件测试是否可用。
+
+
+
+#### 修改
+
+直接使用源码会有碍眼的广告横幅、恶意链接跳转，需要打开html或者js文件，找到多余代码，删掉它，保存，刷新网页查看是否出错。
+
+
+
+##### 2048
+
+替换`index.html`文件：
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <link href="style/main.css" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="meta/apple-touch-icon.png">
+  <link rel="apple-touch-startup-image" href="meta/apple-touch-startup-image-640x1096.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"> <!-- iPhone 5+ -->
+  <link rel="apple-touch-startup-image" href="meta/apple-touch-startup-image-640x920.png"  media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)"> <!-- iPhone, retina -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+
+<body>
+  <div class="container">
+    <div class="heading">
+      <h1 class="title">2048</h1>
+      <div class="scores-container">
+        <div class="score-container">0</div>
+        <div class="best-container">0</div>
+      </div>
+    </div>
+
+    <div class="above-game">
+      <a class="restart-button">点我开始</a>
+    </div>
+
+    <div class="game-container">
+      <div class="game-message">
+        <p></p>
+        <div class="lower">
+	        <a class="keep-playing-button">Keep going</a>
+          <a class="retry-button">再玩一次</a>
+        </div>
+      </div>
+
+      <div class="grid-container">
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+      </div>
+
+      <div class="tile-container">
+
+      </div>
+    </div>
+
+   
+    <hr>
+    
+   
+</div>
+  <script src="js/bind_polyfill.js"></script>
+  <script src="js/classlist_polyfill.js"></script>
+  <script src="js/animframe_polyfill.js"></script>
+  <script src="js/keyboard_input_manager.js"></script>
+  <script src="js/html_actuator.js"></script>
+  <script src="js/grid.js"></script>
+  <script src="js/tile.js"></script>
+  <script src="js/local_storage_manager.js"></script>
+  <script src="js/game_manager.js"></script>
+  <script src="js/application.js"></script>
+  
+
+</body>
+</html>
+```
+
+
+
+##### pacman
+
+更改`index.html`文件：
+
+```html
+<html>
+	<head>
+		<meta charset="utf8">
+		<title>Pac-Man . 吃豆人游戏</title>
+		<link rel="shortcut icon" href="favicon.png">
+		<style>
+			*{padding:0;margin:0;}
+			.wrapper{
+				width: 960px;
+				margin:0 auto;
+				color:#999;
+			}
+			canvas{display:block;background: #000;}
+			.info{
+				line-height: 30px;
+				text-align: center;
+				margin-bottom: 10px;
+			}
+			p{
+				line-height: 24px;
+				text-indent: 2em;
+				font-size: 14px;
+			}
+			.mod-botton{
+				height: 32px;
+				padding: 15px 0;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="wrapper">
+			<canvas id="canvas" width="960" height="640">不支持画布</canvas>
+			<div class="info">按［空格］暂停或继续</div>
+			<div class="mod-botton">
+				<a class="github-button" href="https://github.com/mumuy" data-style="mega" data-count-href="/mumuy/followers" data-count-api="/users/mumuy#followers" data-count-aria-label="# followers on GitHub" aria-label="Follow @mumuy on GitHub">Follow @mumuy</a>
+				<a class="github-button" href="https://github.com/mumuy/pacman" data-style="mega" data-count-href="/mumuy/pacman/stargazers" data-count-api="/repos/mumuy/pacman#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star mumuy/pacman on GitHub">Star</a>
+			</div>
+		</div>
+		<script src="game.js"></script>
+		<script src="index.js"></script>
+		<script async defer src="https://buttons.github.io/buttons.js"></script>
+		<div style="display: none;">
+			<script src="http://s95.cnzz.com/z_stat.php?id=1258310068&web_id=1258310068"></script>
+		</div>
+		<script>
+		(function(){
+		    var bp = document.createElement('script');
+		    var curProtocol = window.location.protocol.split(':')[0];
+		    if (curProtocol === 'https') {
+		        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+		    }
+		    else {
+		        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+		    }
+		    var s = document.getElementsByTagName("script")[0];
+		    s.parentNode.insertBefore(bp, s);
+		})();
+		</script>
+	</body>
+</html>
+```
+
+
+
+
+
+#### 配置
+
+##### 跳过渲染
+
+打开博客根目录的`_config.yml`，找到`skip_render`，添加需要跳过渲染的文件（夹），这种页面不需要主题渲染，像这样：
+
+```yaml
+ skip_render:
+- README.md
+- game/** 
+```
+
+
+
+##### 二级菜单
+
+在自己的博客源码的source文件夹下面新建一个``game`文件夹，然后把刚才的游戏源码整个文件夹拖进去。打开博客根目录的`_config.yml`，配置二级菜单：
+
+```yaml
+  menu:
+    ......
+    - { 
+        key: "game", 
+        icon: "iconfont icon-playstation-fill",
+        submenu: [
+        { key: '2048', link: '/game/2048/' },
+        { key: '吃豆人', link: '/game/pacman/' }
+      ]
+    }
+```
+
+
+
+#### 参考
+
++ [给博客添加两个小游戏：2048、吃豆人 ](https://liuyifei.club/posts/33676.html)
 
 
 

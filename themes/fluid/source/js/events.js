@@ -104,3 +104,7 @@ Fluid.events = {
     });
   }
 };
+
+// mac Panel效果代码块相关
+var exec = require('child_process').exec;
+

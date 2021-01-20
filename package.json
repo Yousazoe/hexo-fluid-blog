@@ -28,6 +28,7 @@
     "hexo-renderer-marked": "^3.0.0",
     "hexo-renderer-stylus": "^2.0.0",
     "hexo-server": "^2.0.0",
+    "hexo-submit-urls-to-search-engine": "^2.0.0",
     "hexo-tag-cloud": "^2.1.2",
     "hexo-tag-dplayer": "^0.3.3",
     "hexo-translate-title": "^1.0.11"
