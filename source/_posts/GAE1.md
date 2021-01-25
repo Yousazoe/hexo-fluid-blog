@@ -4,7 +4,8 @@ title: 中国游戏市场简析
 tags:
   - Game
 categories: 游戏分析与测评 (Game Analysis and Evaluation)
-index_img: 
+index_img:
+abbrlink: c558be6b 
 banner_img: https://tva1.sinaimg.cn/large/007S8ZIlly1ggxwpu9b5oj311i0p0n12.jpg
 translate_title: a-brief-analysis-of-the-chinese-game-market
 date: 2020-05-05 23:38:05

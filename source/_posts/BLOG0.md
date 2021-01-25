@@ -6,14 +6,12 @@ tags:
   - Blog
 categories: 博客搭建(Blog Building)
 index_img: 
-banner_img: https://tva1.sinaimg.cn/large/0081Kckwgy1glcvkpopxkj30zp0u040h.jpg
+banner_img: https://tva1.sinaimg.cn/large/008eGmZEly1gmz9s67xosj31hc0u0npd.jpg
 comment:
 sticky:
 abbrlink: e5b4d2d6
 date: 2020-12-03 13:09:54
 ---
-
-
 
 
 
@@ -1045,6 +1043,337 @@ https://ghchart.rshah.org/yousazoe
 
 - [Github Chart API](https://github.com/2016rshah/githubchart-api)
 - [在博客中展示 GitHub Chart](https://mogeko.me/2019/067/)
+
+
+
+### 黑暗模式切换动画
+
+前几天看到 [shoka 博客主题](https://shoka.lostyu.me/) 的换皮的动画很 nice，想抄到自己的博客主题上。如果你是和我一样的 Fuild 主题，那直接就抄作业吧，作业位置：
+
+[使用注入器实现换皮动画](https://github.com/bubao/blog/commit/d4818a95af1ac9dba4990e1d41c9eb9ccc38162e)
+
+如果不是的话，那就乖乖把文章看完吧。
+
+#### 文件说明
+
+```
+scripts/injector.js # 注入器
+source/css/animation.styl # 动画属性
+source/css/custom-theme.styl # 换皮时的动画标签
+source/js/cat/custom-utils.js # 自定义的工具
+source/js/cat/onClick.js # 监听按键
+source/js/global.js # 全局
+```
+
+
+
+##### global.js
+
+这个文件其实是给 document 封装一些便利的方法。
+
+```js
+Object.assign(HTMLElement.prototype, {
+  createChild: function(tag, obj, positon) {
+    var child = document.createElement(tag);
+    Object.assign(child, obj);
+    switch (positon) {
+      case "after":
+        this.insertAfter(child);
+        break;
+      case "replace":
+        this.innerHTML = "";
+      default:
+        this.appendChild(child);
+    }
+    return child;
+  },
+  wrap: function(obj) {
+    var box = document.createElement("div");
+    Object.assign(box, obj);
+    this.parentNode.insertBefore(box, this);
+    this.parentNode.removeChild(this);
+    box.appendChild(this);
+  },
+  height: function(h) {
+    if (h) {
+      this.style.height = typeof h == "number" ? h + "rem" : h;
+    }
+    return this.getBoundingClientRect().height;
+  },
+  width: function(w) {
+    if (w) {
+      this.style.width = typeof w == "number" ? w + "rem" : w;
+    }
+    return this.getBoundingClientRect().width;
+  },
+  top: function() {
+    return this.getBoundingClientRect().top;
+  },
+  left: function() {
+    return this.getBoundingClientRect().left;
+  },
+  attr: function(type, value) {
+    if (value === null) {
+      return this.removeAttribute(type);
+    }
+
+    if (value) {
+      this.setAttribute(type, value);
+      return this;
+    } else {
+      return this.getAttribute(type);
+    }
+  },
+  insertAfter: function(element) {
+    var parent = this.parentNode;
+    if (parent.lastChild == this) {
+      parent.appendChild(element);
+    } else {
+      parent.insertBefore(element, this.nextSibling);
+    }
+  },
+  display: function(d) {
+    if (d == null) {
+      return this.style.display;
+    } else {
+      this.style.display = d;
+      return this;
+    }
+  },
+  child: function(selector) {
+    return $(selector, this);
+  },
+  find: function(selector) {
+    return $.all(selector, this);
+  },
+  _class: function(type, className, display) {
+    var classNames = className.indexOf(" ")
+      ? className.split(" ")
+      : [className];
+    var that = this;
+    classNames.forEach(function(name) {
+      if (type == "toggle") {
+        that.classList.toggle(name, display);
+      } else {
+        that.classList[type](name);
+      }
+    });
+  },
+  addClass: function(className) {
+    this._class("add", className);
+    return this;
+  },
+  removeClass: function(className) {
+    this._class("remove", className);
+    return this;
+  },
+  toggleClass: function(className, display) {
+    this._class("toggle", className, display);
+    return this;
+  },
+  hasClass: function(className) {
+    return this.classList.contains(className);
+  }
+});
+```
+
+这里面有个`createChild`方法会在`source/js/cat/onClick.js`中使用。
+
+
+
+##### custom-utils.js
+
+这个文件是从主题的`utils.js`中分离出来的方法，原主题中没有的，其实是可以写在`source/js/cat/onClick.js`中的，但是为了以后方便，还是使用这种方式分离。
+
+```js
+Fluid.utils.transition = function(target, type, complete) {
+  var animation = {};
+  var display = "none";
+  switch (type) {
+    case 0:
+      animation = { opacity: [1, 0] };
+      break;
+    case 1:
+      animation = { opacity: [0, 1] };
+      display = "block";
+      break;
+    case "bounceUpIn":
+      animation = {
+        begin: function(anim) {
+          target.display("block");
+        },
+        translateY: [
+          { value: -60, duration: 200 },
+          { value: 10, duration: 200 },
+          { value: -5, duration: 200 },
+          { value: 0, duration: 200 }
+        ],
+        opacity: [0, 1]
+      };
+      display = "block";
+      break;
+    case "shrinkIn":
+      animation = {
+        begin: function(anim) {
+          target.display("block");
+        },
+        scale: [
+          { value: 1.1, duration: 300 },
+          { value: 1, duration: 200 }
+        ],
+        opacity: 1
+      };
+      display = "block";
+      break;
+    case "slideRightIn":
+      animation = {
+        begin: function(anim) {
+          target.display("block");
+        },
+        translateX: [100, 0],
+        opacity: [0, 1]
+      };
+      display = "block";
+      break;
+    case "slideRightOut":
+      animation = {
+        translateX: [0, 100],
+        opacity: [1, 0]
+      };
+      break;
+    default:
+      animation = type;
+      display = type.display;
+      break;
+  }
+  anime(
+    Object.assign(
+      {
+        targets: target,
+        duration: 200,
+        easing: "linear"
+      },
+      animation
+    )
+  ).finished.then(function() {
+    target.display(display);
+    complete && complete();
+  });
+};
+```
+
+可以看到，是挂在全局变量的`Fluid.utils`下面的，如果不是`Fluid`，建议看一下自己主题是否有`utils`属性，全局变量名可能是主题名。另外。这也意味着，这个文件需要在全局变量定义后才能加载，否则都不到全局变量。
+
+
+
+##### onClick.js
+
+这个就是监听按键时候，触发动画的位置了。
+
+```js
+(function() {
+  function getLS(k) {
+    try {
+      return localStorage.getItem(k);
+    } catch (e) {
+      return null;
+    }
+  }
+  var colorSchemaStorageKey = "Fluid_Color_Scheme";
+  var colorToggleButtonName = "color-toggle-btn";
+  Fluid.utils.waitElementLoaded(colorToggleButtonName, function() {
+    var button = document.getElementById(colorToggleButtonName);
+    if (button) {
+      // 当用户点击切换按钮时，获得新的显示模式、写入 localStorage、并在页面上生效
+      const BODY = document.getElementsByTagName("body")[0];
+      button.addEventListener("click", () => {
+        var neko = BODY.createChild("div", {
+          id: "neko",
+          innerHTML:
+            '<div class="planet"><div class="sun"></div><div class="moon"></div></div><div class="body"><div class="face"><section class="eyes left"><span class="pupil"></span></section><section class="eyes right"><span class="pupil"></span></section><span class="nose"></span></div></div>'
+        });
+
+        var hideNeko = function() {
+          Fluid.utils.transition(
+            neko,
+            {
+              delay: 2500,
+              opacity: 0
+            },
+            function() {
+              BODY.removeChild(neko);
+            }
+          );
+        };
+        var currentSetting = getLS(colorSchemaStorageKey);
+        if (currentSetting === "light") {
+          var c = function() {
+            neko.addClass("dark");
+            hideNeko();
+          };
+        } else {
+          neko.addClass("dark");
+          var c = function() {
+            neko.removeClass("dark");
+            hideNeko();
+          };
+        }
+        Fluid.utils.transition(neko, 1, function() {
+          setTimeout(c, 210);
+        });
+      });
+    }
+  });
+})();
+```
+
+Fluild 主题有个`Fluid.utils.waitElementLoaded`，你的主题如果没有的话，可以使用`windows.ready`方法来代替，或者抄 Fluild 的作业啊。
+
+刚刚前面两个文件的方法`Fluid.utils.transition`和`createChild`就在这里用上了。
+
+另外要说明的是，`colorSchemaStorageKey`是存在 localStorage 中主题状态的 key，如果你的主题不是存 localStorage，那`getLS`这个方法也需要你修改一下了。`currentSetting`的值判断也要根据自己的主题来该一下。`colorToggleButtonName`改成自己的按钮`className`。
+
+
+
+#### 样式
+
+剩下的就是样式，照抄就行，反正我也不熟。
+
+##### injector.js
+
+注入器，放在这个文件夹中，因为是给`hexo`调用的。
+
+```js
+hexo.extend.injector.register(
+  "head_begin",
+  `
+<link rel="stylesheet" href="/css/custom-theme.css">
+<link rel="stylesheet" href="/css/animation.css">
+`,
+  "default"
+);
+
+hexo.extend.injector.register(
+  "head_end",
+  `
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/global.js"></script>
+<script src="/js/cat/custom-utils.js"></script>
+<script src="/js/cat/onClick.js"></script>
+`,
+  "default"
+);
+```
+
+这里分成两段引入，`head_begin`放样式表，`head_end`放脚本。脚本不要放在`head_begin`，以免全局变量未定义。另外，`/js/cat/onClick.js`要放在最后，因为它使用了其它三个 js 的方法。
+
+
+
+#### 参考
+
++ [使用注入器实现换皮动画 ](https://bubao.github.io/2021/01/24/%E4%BD%BF%E7%94%A8%E6%B3%A8%E5%85%A5%E5%99%A8%E5%AE%9E%E7%8E%B0%E6%8D%A2%E7%9A%AE%E5%8A%A8%E7%94%BB/)
+
+
 
 
 

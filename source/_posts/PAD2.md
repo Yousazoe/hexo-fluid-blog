@@ -15,13 +15,15 @@ sticky:
 
 
 
-
+本文我们来聊聊颜色工具以及绘画中的造型和光照。
 
 <!--more-->
 
 
 
 ![](https://tva1.sinaimg.cn/large/0081Kckwgy1glougaw7m8j313g0m8q2x.jpg)
+
+颜色部分在左下角，虽然可能有些没用但了解一下也很好。
 
 ![](https://tva1.sinaimg.cn/large/0081Kckwgy1gloufnzmlvj313g0m8dfr.jpg)
 

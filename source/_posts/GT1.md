@@ -33,17 +33,17 @@ Florence 是一场持续约 30 分钟的心动体验。故事很简短，但意�
 ### 测评
 
 > “Florence is a beautiful experience that isn’t afraid to tell an ordinary story. This isn’t an action-packed, heroic tale or a somber story filled with tragedy, but it still hits some of those notes in subdued ways. Florence is happy, distressing, and admirable in its reflection of young romance, and it left me with a sense of unexpected hopefulness.”
-> [Game Informer](https://steamcommunity.com/linkfilter/?url=https://www.gameinformer.com/games/florence/b/ios/archive/2018/02/20/florence-game-informer-review.aspx)
+> *Game Informer*
 
 <br/>
 
 > “This short collection of small moments manages to cover a wide range of powerfully relatable emotional highs and lows, beautifully capturing what it’s like to fall in love for the first time.”
-> [The Guardian](https://steamcommunity.com/linkfilter/?url=https://www.theguardian.com/games/2018/feb/23/florence-review-graphic-novel-style-game)
+> *The Guardian*
 
 <br/>
 
 > “The breathtaking Florence captures falling in love better than almost any game.”
-> [Polygon](https://steamcommunity.com/linkfilter/?url=https://www.polygon.com/2018/2/15/17014258/florence-game-review-ios-best-games-2018)
+> *Polygon*
 
 ### 游戏体验
 
@@ -75,7 +75,7 @@ Florence 是一场持续约 30 分钟的心动体验。故事很简短，但意�
 
 > 女孩幼年热爱绘画，二十来年不练，分手之后努力画了几年突然就绘画艺术家作品大卖了，我觉得真的好假啊，这种女孩是天才，是玛丽苏，是任何小说电视剧里的女主角，唯独不是普通人。一个「恋爱后分手，分手后成名」的恋爱故事，越品越感觉像是一个泡泡一样的童话”
 >
->  --[Topas今天退休了吗](https://www.taptap.com/user/50050544)
+>  *Topas今天退休了吗*
 
 在我看来，《Florence》与其说是一个故事，不如说是一个关于爱情的童话：与其在其中寻找现实中爱情的影子，不如放松下来，把它当作一本童话书或者一个绘本，静静欣赏那种单纯的美好。彼此激励一起为对方对梦想加油、无论做什么都是快乐而且有活力的、哪怕有吵架不久后还是原谅对方继续甜蜜、即使 Florence 失去了 Krish，她依旧选择了去热爱生活，去追逐自己的梦想，最后获得了成功。抛开合理性，这个剧情本身就已经超出了简单的甜甜的恋爱，立意上升到一个更高的层次：恋爱让自己变得更好。经历过这些，她明白了一个问题：我是谁？人的一生都在了解自己，女主也不例外。所以这款游戏的名字叫做“Florence”，不仅仅是说她经历了一切，更意味着，她经历的这一切，让她找回了自己。这可能才是游戏想真正表达的。
 

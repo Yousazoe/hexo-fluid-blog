@@ -227,12 +227,12 @@ web_analytics:  # 网页访问统计
   # Google 统计的 Tracking ID
   # Google analytics, set Tracking ID
   # See: https://developers.google.com/analytics/devguides/collection/analyticsjs
-  google:
+  google: G-JRLE1T5G8K
 
   # Google gtag.js 的媒体资源 ID
   # Google gtag.js GA_MEASUREMENT_ID
   # See: https://developers.google.com/analytics/devguides/collection/gtagjs/
-  gtag:
+  gtag: G-JRLE1T5G8K
 
   # 腾讯统计的 H5 App ID，开启高级功能才有cid
   # Tencent analytics, set APP ID
@@ -307,14 +307,14 @@ navbar:
     - { key: "category", link: "/categories/", icon: "iconfont icon-category-fill" }
     - { key: "tag", link: "/tags/", icon: "iconfont icon-tags-fill" }
     - { key: "links", link: "/links/", icon: "iconfont icon-link-fill" }
-    - { 
-        key: "Game", 
-        icon: "iconfont icon-playstation-fill",
-        submenu: [
-        { key: '2048', link: '/game/2048/' },
-        { key: '吃豆人', link: '/game/pacman/' }
-      ]
-    }
+    #- { 
+    #    key: "Game", 
+    #    icon: "iconfont icon-playstation-fill",
+    #    submenu: [
+    #    { key: '2048', link: '/game/2048/' },
+    #    { key: '吃豆人', link: '/game/pacman/' }
+    #  ]
+    #}
     - { key: "about", link: "/about/", icon: "iconfont icon-user-fill" }
 
 # 搜索栏，基于 hexo-generator-search 插件，若已安装其他搜索插件请关闭此功能，以避免生成多余的索引文件
@@ -871,19 +871,19 @@ links:
       title: "Fluid Blog",
       intro: "主题博客",
       link: "https://hexo.fluid-dev.com/",
-      image: "/img/link_icon/fluid_blog.jpg"
+      image: "/img/link_icon/室内植物-16.svg"
     }
     - {
       title: "Fluid Docs",
       intro: "主题使用指南",
       link: "https://hexo.fluid-dev.com/docs/",
-      image: "/img/link_icon/fluid_doc.jpg"
+      image: "/img/link_icon/室内植物-7.svg"
     }
     - {
       title: "Fluid Repo",
       intro: "主题 GitHub 仓库",
       link: "https://github.com/fluid-dev/hexo-theme-fluid",
-      image: "/img/link_icon/fluid_github.jpg"
+      image: "/img/link_icon/室内植物-18.svg"
     }
 
 

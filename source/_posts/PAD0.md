@@ -230,7 +230,7 @@ brew cask install aseprite
 
 ![](https://tva1.sinaimg.cn/large/008eGmZEly1gmsw891ap7j30w0066jtl.jpg)
 
-之后你可以在MAC的启动台启动Aseprite进行像素绘画
+之后你可以在MAC的启动台启动Aseprite进行像素绘画啦！
 
 ![](https://tva1.sinaimg.cn/large/008eGmZEly1gmsw89jgzaj318v0u0dhr.jpg)
 
@@ -238,10 +238,43 @@ brew cask install aseprite
 
 
 
+### 汉化
+
+在steam社区中有非常详细的指南，推荐参考
+
+![](https://tva1.sinaimg.cn/large/008eGmZEly1gn03cgss93j30k008674l.jpg)
+
+汉化和主题的所需文件都在这里：[https://github.com/J-11/Aseprite-Simplified-Chinese/blob/master/README.md](https://link.zhihu.com/?target=https%3A//github.com/J-11/Aseprite-Simplified-Chinese/blob/master/README.md)
+
+![](https://tva1.sinaimg.cn/large/008eGmZEly1gn03ciigs7j30k0089glu.jpg)
+
+顶部菜单栏“Edit”>>“Preferences”>>“Extensions”>>“Add Extensions”>>选择下载的文件导入即可，如果汉化后字体模糊，则需要使用字体主题包
+
+![](https://tva1.sinaimg.cn/large/008eGmZEly1gn03chm5h8j31hc0rtjs8.jpg)
+
+汉化成功！尽情享受！
+
+
+
+### 题外话
+
+结尾再给大家分享几张像素画，全文中的像素画作者皆为：来自日本的1041uuu（丰井佑太）
+
+![](https://tva1.sinaimg.cn/large/008eGmZEly1gn03cjhbh1j30dc07i0u9.jpg)
+
+![](https://tva1.sinaimg.cn/large/008eGmZEly1gn03ch4ldhj30k00bjgms.jpg)
+
+![](https://tva1.sinaimg.cn/large/008eGmZEly1gn03cj1xxuj30k00arq5x.jpg)
+
+推荐一个像素艺术网站：[https://www.pixilart.com/](https://link.zhihu.com/?target=https%3A//www.pixilart.com/)
+
+
+
 ### 参考
 
 + [Install Aseprite on Mac OSX](http://macappstore.org/aseprite/)
 + [Mac 编译安装 Aseprite](https://www.bestgcc.cn/20181204194300.html)
++ [【Aseprite】像素绘制软件编译（白嫖）教程](https://zhuanlan.zhihu.com/p/156775243)
 
 
 
